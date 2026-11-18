@@ -227,8 +227,77 @@ public class HospitalInspections extends JFrame {
             HospitalInspections form =
                 new HospitalInspections();
 
-            form.setVisible(true);
-        });
+            form.setVisible(
+public class Product {
+
+    // Variables needed
+    private String[] productNames;
+    private int[] productsSold;
+    private int count;
+
+    // Constructor
+    public Product() {
+        productNames = new String[10];
+        productsSold = new int[10];
+        count = 0;
     }
+
+    // Method to add product details
+    public void AddProduct(String name, int quantity) {
+ 
+If method
+        if (count < 10) {
+            productNames[count] = name;
+            productsSold[count] = quantity;
+            count++;
+        }
+    }
+
+    // Calculate total products sold
+    public int GetTotalProductsSold() {
+
+        int total = 0;
+
+        for (int i = 0; i < count; i++) {
+            total += productsSold[i];
+        }
+
+        return total;
+    }
+
+    // Calculate average products sold
+    public double GetAverageProductSold() {
+
+        if (count == 0) {
+            return 0;
+        }
+
+        return (double) GetTotalProductsSold() / count;
+    }
+
+    // Find the most popular product
+    public String GetMostPopularProduct() {
+
+        if (count == 0) {
+            return "No products available";
+        }
+
+        int highest = productsSold[0];
+        int position = 0;
+
+        for (int i = 1; i < count; i++) {
+
+            if (productsSold[i] > highest) {
+                highest = productsSold[i];
+                position = i;
+            }
+        }
+
+        return productNames[position];
+    }
+}
+
+
+
 }
 	◦	
