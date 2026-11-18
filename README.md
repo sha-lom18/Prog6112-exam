@@ -6,7 +6,7 @@ import java.awt.*;
 
 public class HospitalInspections extends JFrame {
 
-    //Components
+    //Components of the code
     private JTextField txtHospitalName;
     private JTextField txtHospitalLocation;
     private JComboBox<String> cmbYears;
@@ -30,7 +30,7 @@ public class HospitalInspections extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
 
-        // Main panel
+        // The main panel of the report 
         JPanel mainPanel = new JPanel();
         mainPanel.setLayout(new BorderLayout(10, 10));
         mainPanel.setBorder(
@@ -74,7 +74,7 @@ public class HospitalInspections extends JFrame {
         JScrollPane scrollPane = new JScrollPane(lstHospitals);
         mainPanel.add(scrollPane, BorderLayout.CENTER);
 
-        // Panel for PRINT and CLEAR buttons
+        // Print and clear Buttons
         JPanel buttonPanel = new JPanel(new GridLayout(1, 2, 10, 10));
 
         btnPrint = new JButton("PRINT");
@@ -87,7 +87,7 @@ public class HospitalInspections extends JFrame {
 
         add(mainPanel);
 
-        // Create the menu system
+        // Create the menu
         JMenuBar menuBar = new JMenuBar();
 
         JMenu fileMenu = new JMenu("File");
@@ -109,12 +109,12 @@ public class HospitalInspections extends JFrame {
 
         setJMenuBar(menuBar);
 
-        // Button event handlers
+        // Enter the buttons handlers
         btnSave.addActionListener(e -> saveHospital());
         btnPrint.addActionListener(e -> printHospitals());
         btnClear.addActionListener(e -> clearControls());
 
-        // Menu event handlers
+        // Enter the menu handlers
         saveItem.addActionListener(e -> saveHospital());
         printItem.addActionListener(e -> printHospitals());
         clearItem.addActionListener(e -> clearControls());
@@ -175,7 +175,7 @@ public class HospitalInspections extends JFrame {
     private void printHospitals() {
 
         listModel.clear();
-
+//If method 
         if (count == 0) {
             JOptionPane.showMessageDialog(
                 this,
@@ -296,6 +296,295 @@ If method
         return productNames[position];
     }
 }
+Question 2
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
+
+public class ProductApp extends JFrame {
+
+    // Declare variables
+    private JTextField txtCustomerName;
+    private JTextField txtPrice;
+    private JComboBox<String> cmbProduct;
+    private JTextArea txtReport;
+    private JButton btnProcess;
+
+    // Constructor
+    public ProductApp() {
+
+        setTitle("Product App");
+        setSize(550, 550);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setLocationRelativeTo(null);
+
+        // Create menu bar
+        JMenuBar menuBar = new JMenuBar();
+
+        JMenu fileMenu = new JMenu("File");
+        JMenu editMenu = new JMenu("Edit");
+
+        JMenuItem exitItem = new JMenuItem("Exit");
+        JMenuItem clearItem = new JMenuItem("Clear");
+
+        fileMenu.add(exitItem);
+        editMenu.add(clearItem);
+
+        menuBar.add(fileMenu);
+        menuBar.add(editMenu);
+
+        setJMenuBar(menuBar);
+
+        // Create main panel
+        JPanel panel = new JPanel();
+        panel.setLayout(new GridLayout(5, 2, 10, 15));
+
+        panel.setBorder(
+            BorderFactory.createEmptyBorder(20, 20, 20, 20)
+        );
+
+        // Name of the customer
+        panel.add(new JLabel("Customer Name:"));
+
+        txtCustomerName = new JTextField();
+        panel.add(txtCustomerName);
+
+        // Product selection
+        panel.add(new JLabel("Select Product:"));
+
+        String[] products = {
+            "Cozy Nights Monarch"
+        };
+
+        cmbProduct = new JComboBox<>(products);
+        panel.add(cmbProduct);
+
+        // Product price
+        panel.add(new JLabel("Enter Price:"));
+
+        txtPrice = new JTextField();
+        panel.add(txtPrice);
+
+        // Processing
+        btnProcess = new JButton("PROCESS");
+
+        panel.add(new JLabel(""));
+        panel.add(btnProcess);
+
+        // Enter the area
+        txtReport = new JTextArea();
+        txtReport.setEditable(false);
+
+        JScrollPane scrollPane =
+            new JScrollPane(txtReport);
+
+        add(panel, BorderLayout.NORTH);
+        add(scrollPane, BorderLayout.CENTER);
+
+        // Button event
+        btnProcess.addActionListener(e -> processSale());
+
+        // Menu events
+        exitItem.addActionListener(e -> System.exit(0));
+
+        clearItem.addActionListener(e -> clearFields());
+    }
+
+    // Process sales information
+    private void processSale() {
+
+        try {
+
+            // Get customer information
+            String customerName =
+                txtCustomerName.getText();
+
+            String productName =
+                (String) cmbProduct.getSelectedItem();
+
+            double price =
+                Double.parseDouble(txtPrice.getText());
+
+            // Validate the informs needed
+            if (customerName.trim().isEmpty() || price <= 0) {
+
+                JOptionPane.showMessageDialog(
+                    this,
+                    "Please enter valid customer details and price."
+                );
+
+                return;
+            }
+
+            // Calculate VAT
+            double vat = price * 0.15;
+
+            // Calculate commission
+            double commission = price * 0.05;
+
+            // Calculate total sale amount
+            double total = price + vat + commission;
+
+            // Display report
+            txtReport.setText(
+                "========== PRODUCT SALES REPORT ==========\n\n"
+                + "Customer Name: " + customerName + "\n"
+                + "Product Name: " + productName + "\n"
+                + "Product Price: R" + String.format("%.2f", price) + "\n"
+                + "VAT Amount: R" + String.format("%.2f", vat) + "\n"
+                + "Commission Amount: R"
+                + String.format("%.2f", commission) + "\n"
+                + "Total Sale Amount: R"
+                + String.format("%.2f", total)
+                + "\n\n=========================================="
+            );
+
+        } catch (NumberFormatException e) {
+
+            JOptionPane.showMessageDialog(
+                this,
+                "Please enter a valid numerical price.",
+                "Input Error",
+                JOptionPane.ERROR_MESSAGE
+            );
+        }
+    }
+
+    // Clear all input fields
+    private void clearFields() {
+
+        txtCustomerName.setText("");
+        txtPrice.setText("");
+        cmbProduct.setSelectedIndex(0);
+        txtReport.setText("");
+    }
+
+    // Main method
+    public static void main(String[] args) {
+
+        SwingUtilities.invokeLater(() -> {
+
+            ProductApp app = new ProductApp();
+
+            app.setVisible(true);
+        });
+    }
+}
+
+public interface IProductCalculations {
+    double GetVat();
+    double GetCommission();
+    double GetTotal();
+}
+
+public class ProductCalculations implements IProductCalculations {
+    private double salesAmount;
+    private double vatRate;        // e.g., 0.15 for 15% VAT
+    private double commissionRate; // e.g., 0.05 for 5% commission
+
+    // Constructor to initialize sales and rates
+    public ProductCalculations(double salesAmount, double vatRate, double commissionRate) {
+        this.salesAmount = salesAmount;
+        this.vatRate = vatRate;
+        this.commissionRate = commissionRate;
+    }
+
+    @Override
+    public double GetVat() {
+        return salesAmount * vatRate;
+    }
+
+    @Override
+    public double GetCommission() {
+        return salesAmount * commissionRate;
+    }
+
+    @Override
+    public double GetTotal() {
+        // Total sale amount including VAT
+        return salesAmount + GetVat();
+    }
+}
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import org.junit.jupiter.api.Test;
+
+public class ProductCalculationsTests {
+
+    @Test
+    public void GetVat_WithValidData_ReturnsCorrectValue() {
+        // Arrange: Set up test data with a known sales amount and VAT rate
+        double salesAmount = 1000.0;
+        double expectedVat = 150.0; // 1000.0 * 0.15 (15% VAT)
+        
+        IProductCalculations calculations = new ProductCalculations(salesAmount, 0.15, 0.05);
+
+        // Act: Invoke the GetVat method
+        double actualVat = calculations.GetVat();
+
+        // Assert: Verify that the returned VAT matches the expected value
+        assertEquals(expectedVat, actualVat, 0.001, "The GetVat method in the ProductCalculations class should correctly return the VAT amount[span_4](start_span)[span_4](end_span).");
+    }
+}
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import org.junit.jupiter.api.Test;
+
+public class ProductCalculationsTests {
+
+    @Test
+    public void GetVat_WithValidData_ReturnsCorrectValue() {
+        // Arrange: Set up test data with a known sales amount and VAT rate
+        double salesAmount = 1000.0;
+        double expectedVat = 150.0; // 1000.0 * 0.15 (15% VAT)
+        
+        IProductCalculations calculations = new ProductCalculations(salesAmount, 0.15, 0.05);
+
+        // Act: Invoke the GetVat method
+        double actualVat = calculations.GetVat();
+
+        // Assert: Verify that the returned VAT matches the expected value
+        assertEquals(expectedVat, actualVat, 0.001, "The GetVat method in the ProductCalculations class should correctly return the VAT amount[span_4](start_span)[span_4](end_span).");
+    }
+}
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import org.junit.jupiter.api.Test;
+
+public class ProductCalculationsTests {
+
+    }
+}
+
+public class ProductCalculations implements IProductCalculations {
+    private double salesAmount;
+    private double vatRate;        // e.g., 0.15 for 15% VAT
+    private double commissionRate; // e.g., 0.05 for 5% commission
+
+    // Constructor to initialize sales and rates
+    public ProductCalculations(double salesAmount, double vatRate, double commissionRate) {
+        this.salesAmount = salesAmount;
+        this.vatRate = vatRate;
+        this.commissionRate = commissionRate;
+    }
+//override method
+    @Override
+    public double GetVat() {
+        return salesAmount * vatRate;
+    }
+
+    @Override
+    public double GetCommission() {
+        return salesAmount * commissionRate;
+    }
+
+    @Override
+    public double GetTotal() {
+        // Total sale amount including VAT
+        return salesAmount + GetVat();
+    }
+}
+
 
 
 
